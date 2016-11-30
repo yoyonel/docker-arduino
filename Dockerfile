@@ -18,7 +18,7 @@ RUN apt-get update \
 
 RUN git clone https://github.com/yoyonel/arduino-cmake.git /root/arduino-cmake
 
-COPY ./apt.conf /etc/apt/apt.conf
+#COPY ./apt.conf /etc/apt/apt.conf
 
 COPY ./scripts/set_env_arduino-cmake.sh /root/.
 COPY ./scripts/launch_rosserial_client.sh /root/.
