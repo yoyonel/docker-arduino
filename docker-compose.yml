@@ -1,18 +1,20 @@
 version: '2'
 
 services:
+
   master:
+    container_name: ros_master
     build: 
         context: ros/.
         args:
             - http_proxy
             - https_proxy
             - no_proxy
-    depends_on:
-        - "resolvable"
-    command: roscore
+    command: 
+        - roscore
 
   arduino:
+    container_name: rosnode_arduino
     build:
         context: docker-arduino/.
         args:
@@ -27,37 +29,3 @@ services:
         - "ROS_HOSTNAME=arduino"
         - "ROS_MASTER_URI=http://master:11311"
     command: rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=115200
-
-    #talker:
-    #tabuild: 
-    #ta    context: .
-    #ta    args:
-    #ta        - http_proxy
-    #ta        - https_proxy
-    #ta        - no_proxy
-    #taenvironment:
-    #ta  - "ROS_HOSTNAME=talker"
-    #ta  - "ROS_MASTER_URI=http://master:11311"
-    #tadepends_on:
-    #ta    - "master"
-    #tacommand: rosrun roscpp_tutorials talker
-
-    #  listener:
-    #    build: 
-    #        context: .
-    #        args:
-    #            - http_proxy
-    #            - https_proxy
-    #            - no_proxy
-    #    environment:
-    #      - "ROS_HOSTNAME=listener"
-    #      - "ROS_MASTER_URI=http://master:11311"
-    #    depends_on:
-    #      - "master"
-    #    command: rosrun roscpp_tutorials listener
-
-  resolvable:
-    image: mgood/resolvable
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-      - /etc/resolv.conf:/tmp/resolv.conf
