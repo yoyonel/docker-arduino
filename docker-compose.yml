@@ -15,36 +15,28 @@ services:
         # Lancement du ROS Core => lance un ROS Master (s'il n'existe pas déjà)
         - roscore
 
-          #  rosserial:
-          #      container_name: rosserial
-          #      build:
-          #          context: rosserial/.
-          #          args:
-          #              - http_proxy
-          #              - https_proxy
-          #              - no_proxy
-          #
   # Definition du ROS Node pour l'Arduino
-  # TODO: Il faut décomposer le node 'rosnode_arduino' et extraire la partie
-  # rosserial contenue dans ce noeud et créer une dépendance directement dans le
-  # docker-compose
   arduino:
     container_name: rosnode_arduino
+
     build:
         context: docker-arduino/.
         args:
             - http_proxy
             - https_proxy
             - no_proxy
+
     # transmission au node de la connection série par USB
     # TODO: faudrait le passer en paramètre (argument de commande)
     devices:
         - "/dev/ttyACM0:/dev/ttyACM0"
+
     # Dépendance en terme de noeuds ROS (faudrait rajouter 'rosserial')
     depends_on:
         - "master"
-    # 
+
     environment:
         - "ROS_HOSTNAME=arduino"
         - "ROS_MASTER_URI=http://master:11311"
+
     command: rosrun rosserial_python serial_node.py /dev/ttyACM0 _baud:=115200
