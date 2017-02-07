@@ -1,0 +1,2 @@
+# Bus 003 Device 010: ID 2341:0043 Arduino SA Uno R3 (CDC ACM)
+SUBSYSTEMS=="usb", ATTRS{idProduct}=="2341", ATTRS{idVendor}=="0043", SYMLINK+="ttyACM0"
