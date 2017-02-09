@@ -1,0 +1,2 @@
+# Bus 001 Device 013: ID 2a03:0043 dog hunter AG Arduino Uno Rev3
+SUBSYSTEMS=="usb", ATTRS{idProduct}=="2a03", ATTRS{idVendor}=="0043", SYMLINK+="ttyACM0"
